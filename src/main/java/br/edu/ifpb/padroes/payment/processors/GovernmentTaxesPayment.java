@@ -8,6 +8,7 @@ public class GovernmentTaxesPayment extends PaymentProcessor {
     public void process(Property property) {
         double governmentTaxes = property.getPrice()*0.05;
         System.out.println(String.format("Pay %f for government taxes", governmentTaxes));
+        this.nextProcessor(property);
     }
 }
 

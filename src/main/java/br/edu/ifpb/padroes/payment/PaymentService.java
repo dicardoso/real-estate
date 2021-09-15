@@ -8,15 +8,13 @@ import br.edu.ifpb.padroes.payment.processors.RealEstatePayment;
 public class PaymentService {
 
     public void pay(Property sale) {
-        GovernmentTaxesPayment governmentTaxesPayment = new GovernmentTaxesPayment();
-        RealEstatePayment realEstatePayment = new RealEstatePayment();
-        PropertyPayment propertyPayment = new PropertyPayment();
+        PaymentProcessor governmentTaxesPayment = new GovernmentTaxesPayment();
+        PaymentProcessor realEstatePayment = new RealEstatePayment();
+        PaymentProcessor propertyPayment = new PropertyPayment();
 
         // TODO - implementar Chain of Responsibility para que ordem dos métodos de pagamento seja dinâmica (definida em tempo de execução)
-        governmentTaxesPayment.process(sale);
-        realEstatePayment.process(sale);
-        propertyPayment.process(sale);
-
+        PaymentProcessor chain = governmentTaxesPayment;
+        chain.nextProcessor(realEstatePayment).nextProcessor(propertyPayment);
+        chain.process(sale);
     }
-
 }
